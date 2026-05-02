@@ -148,24 +148,8 @@ ws://localhost:8000/ws
 
 14. Test WebSocket Audio
 
-Ví dụ client test:
-
-import asyncio
-import websockets
-
-async def test():
-    uri = "ws://127.0.0.1:8000/ws"
-
-    async with websockets.connect(uri) as websocket:
-        with open("sample.m4a", "rb") as f:
-            audio = f.read()
-
-        await websocket.send(audio)
-
-        response = await websocket.recv()
-        print(response)
-
-asyncio.run(test())
+test chat: test_chat.py
+test audio: wstest.py
 
 15. Database Schema
 
