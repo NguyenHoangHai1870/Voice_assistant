@@ -166,7 +166,32 @@ Schema được khởi tạo tự động từ:
 
 init.sql
 
-16. Workflow xử lý request
+16. Pipeline tiền xử lý dữ liệu
+
+Hệ thống thực hiện nhiều bước tiền xử lý dữ liệu trước khi đưa vào các mô hình AI nhằm giảm nhiễu, tăng độ chính xác và tối ưu hiệu năng xử lý.
+
+Tiền xử lý audio
+- Voice Activity Detection (VAD) lọc khoảng im lặng và nhiễu
+- Giới hạn ngôn ngữ nhận diện là tiếng Việt
+- Domain prompt hỗ trợ nhận diện thuật ngữ công nghệ
+
+Tiền xử lý văn bản
+- Chuẩn hóa chữ thường
+- Sửa lỗi chính tả / từ nhận diện sai
+- Chuẩn hóa từ khóa và cách viết
+
+Tiền xử lý ngữ nghĩa
+- Chuyển câu hỏi thành vector embedding
+- Lọc theo ngưỡng độ tương đồng
+- Margin filtering để tránh match sai ngữ nghĩa
+
+Tiền xử lý bộ nhớ người dùng
+- Lọc dữ liệu không hợp lệ
+- Loại bỏ dữ liệu trùng lặp
+- Giới hạn context hội thoại gần nhất
+
+17. Workflow xử lý request
+
 Audio/Text Input
       ↓
 Speech To Text (nếu audio)
@@ -180,7 +205,7 @@ Route Service
         ↓
  FAQ Retrieval / Memory / LLM
 
-17. Một số ví dụ câu lệnh hỗ trợ
+18. Một số ví dụ câu lệnh hỗ trợ
 Calendar
 Nhắc tôi họp lúc 8 giờ sáng
 Hôm nay tôi có lịch gì
@@ -193,14 +218,14 @@ QA
 Machine learning là gì
 Hôm nay thời tiết thế nào
 
-18. Lưu ý
+19. Lưu ý
 Với audio:
 Hỗ trợ .m4a
 STT tốc độ phụ thuộc model local
 Với device control:
 Một số chức năng chỉ hoạt động local trên máy host
 
-19. Thành viên clone project cần làm gì
+120. Thành viên clone project cần làm gì
 copy .env.example .env
 docker-compose up --build
 ollama serve
@@ -209,7 +234,9 @@ ollama pull qwen2.5:3b
 Sau đó project sẵn sàng tại:
 
 ws://localhost:8000/ws
-20. Troubleshooting
+
+21. Troubleshooting
+
 Missing intent_model.pkl
 python app/train_intent.py
 Missing FAQ embeddings
