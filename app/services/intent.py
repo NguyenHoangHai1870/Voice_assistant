@@ -1,15 +1,37 @@
 from pathlib import Path
 import joblib
-from app.services.smalltalk_service import is_smalltalk, is_weather_query
+import numpy as np
+
+from app.services.smalltalk_service import (
+    is_smalltalk,
+    is_weather_query
+)
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
 MODEL_PATH = BASE_DIR / "models" / "intent_model.pkl"
 
 intent_model = joblib.load(MODEL_PATH)
 
-def predict_intent(text: str):
-    text_lower = text.lower().strip()
+CONFIDENCE_THRESHOLD = 0.60
 
-    if is_smalltalk(text_lower) or is_weather_query(text_lower):
+def predict_intent(text: str):
+    text = text.lower().strip()
+
+    if is_smalltalk(text) or is_weather_query(text):
         return "qa"
 
-    return intent_model.predict([text])[0]
+    probs = intent_model.predict_proba([[text]])[0]
+
+    best_idx = np.argmax(probs)
+
+    confidence = float(probs[best_idx])
+
+    intent = intent_model.classes_[best_idx]
+
+    print(f"[INTENT] {intent} ({confidence:.2f})")
+
+    if confidence < CONFIDENCE_THRESHOLD:
+        return "qa"
+
+    return intent

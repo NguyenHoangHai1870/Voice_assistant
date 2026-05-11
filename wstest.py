@@ -8,7 +8,7 @@ async def test():
     async with websockets.connect(uri) as websocket:
         print("Connected")
 
-        with open("tt.m4a", "rb") as f:
+        with open("hi.m4a", "rb") as f:
             audio = f.read()
 
         await websocket.send(audio)
