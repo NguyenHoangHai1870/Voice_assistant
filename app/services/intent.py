@@ -1,6 +1,6 @@
 from pathlib import Path
 import joblib
-import numpy as np
+import pandas as pd
 
 from app.services.smalltalk_service import (
     is_smalltalk,
@@ -8,30 +8,95 @@ from app.services.smalltalk_service import (
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
 MODEL_PATH = BASE_DIR / "models" / "intent_model.pkl"
 
 intent_model = joblib.load(MODEL_PATH)
 
-CONFIDENCE_THRESHOLD = 0.60
+
+CALENDAR_KEYWORDS = [
+    "nhắc",
+    "lịch",
+    "đặt lịch",
+    "tạo lịch",
+    "hẹn",
+    "meeting",
+    "cuộc họp",
+    "remind",
+    "schedule",
+    "deadline",
+    "báo thức"
+]
+
+CONTROL_KEYWORDS = [
+    "mở",
+    "open",
+    "truy cập",
+    "vào",
+    "youtube",
+    "google",
+    "facebook",
+    "github",
+    "gmail",
+    "chatgpt",
+    "gemini",
+    "tiktok",
+    "instagram"
+]
+
+PERSONALIZE_KEYWORDS = [
+    "tôi thích",
+    "mình thích",
+    "tôi tên",
+    "mình tên",
+    "tôi là",
+    "mình là",
+    "tôi học",
+    "mình học",
+    "tôi sống",
+    "mình sống",
+    "quê tôi",
+    "trả lời ngắn",
+    "giải thích kỹ",
+    "nói lịch sự"
+]
+
 
 def predict_intent(text: str):
-    text = text.lower().strip()
 
-    if is_smalltalk(text) or is_weather_query(text):
+    text = str(text).strip()
+    text_lower = text.lower()
+
+
+    if any(k in text_lower for k in CALENDAR_KEYWORDS):
+        return "calendar"
+
+    if any(k in text_lower for k in CONTROL_KEYWORDS):
+        return "control_device"
+
+    if any(k in text_lower for k in PERSONALIZE_KEYWORDS):
+        return "personalize"
+
+    if is_smalltalk(text_lower) or is_weather_query(text_lower):
         return "qa"
 
-    probs = intent_model.predict_proba([[text]])[0]
+    X = pd.DataFrame({
+        "text": [text]
+    })
 
-    best_idx = np.argmax(probs)
+    probs = intent_model.predict_proba(X)[0]
+    labels = intent_model.classes_
 
-    confidence = float(probs[best_idx])
+    best_idx = probs.argmax()
 
-    intent = intent_model.classes_[best_idx]
+    best_label = labels[best_idx]
+    best_score = probs[best_idx]
 
-    print(f"[INTENT] {intent} ({confidence:.2f})")
+    print("[INTENT PROBS]:", {
+        label: round(float(score), 3)
+        for label, score in zip(labels, probs)
+    })
 
-    if confidence < CONFIDENCE_THRESHOLD:
+    if best_score < 0.45:
         return "qa"
 
-    return intent
+    return best_label

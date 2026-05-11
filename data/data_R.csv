@@ -449,6 +449,11 @@ Thêm lịch học lúc 6 giờ sáng mai,calendar
 Tôi thích làm việc theo deadline rõ ràng,personalize
 Tắt bluetooth,control_device
 Chạy powerpoint,control_device
+đặt lịch học ngày mai 6 giờ,calendar
+hủy lịch mai,calendar
+hủy lịch ngày mai,calendar
+thêm lịch mai dậy,calendar
+đặt lịch mai,calendar
 Thêm lịch ăn sáng lúc 7 giờ,calendar
 Sáng nay có lịch học không,calendar
 Thời tiết hôm nay thế nào,qa
@@ -1088,6 +1093,11 @@ edge ai là gì,qa
 openai là công ty gì,qa
 ollama dùng để làm gì,qa
 qwen là model gì,qa
+đặt lịch học ngày mai 6 giờ,calendar
+hủy lịch mai,calendar
+hủy lịch ngày mai,calendar
+thêm lịch mai dậy,calendar
+đặt lịch mai,calendar
 gemma là gì,qa
 llama là gì,qa
 vì sao embedding hữu ích,qa
@@ -1293,3 +1303,18 @@ vào gmail luôn,control_device
 open gemini,control_device
 search semantic retrieval,control_device
 mở lịch google calendar,control_device
+mai nhớ kêu tôi dậy lúc 6h,calendar
+tối nay tôi có gì cần làm không,calendar
+ngày mai xem giúp tôi có lịch gì,calendar
+chiều mai tôi có cuộc hẹn nào không,calendar
+thêm giúp tôi cái lịch học tối nay,calendar
+tạo reminder uống thuốc lúc 9h tối,calendar
+mai có phải họp không nhỉ,calendar
+đừng quên nhắc tôi học bài tối nay,calendar
+check xem mai tôi rảnh không,calendar
+đặt hộ tôi lịch họp sáng mai,calendar
+đặt lịch học ngày mai 6 giờ,calendar
+hủy lịch mai,calendar
+hủy lịch ngày mai,calendar
+thêm lịch mai dậy,calendar
+đặt lịch mai,calendar
